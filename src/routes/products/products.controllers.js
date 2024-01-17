@@ -3,6 +3,7 @@ const {
   getProductById,
   getProductsByCategory,
   addNewProduct,
+  deleteProduct,
 } = require("../../models/products/products.model");
 
 async function httpGetAllProducts(req, res) {
@@ -15,6 +16,7 @@ async function httpGetAllProducts(req, res) {
 }
 
 function httpGetProductsByCategory(req, res) {}
+
 function httpGetProductById(req, res) {}
 
 async function httpAddNewProduct(req, res) {
@@ -22,7 +24,6 @@ async function httpAddNewProduct(req, res) {
   // type convention
   newProduct.quantity = Number(newProduct.quantity);
   newProduct.price = Number(newProduct.price);
-  console.log(newProduct);
   try {
     await addNewProduct(newProduct);
     return res.status(201).json({ message: "successful added" });
@@ -31,9 +32,24 @@ async function httpAddNewProduct(req, res) {
   }
 }
 
+async function httpDeleteProduct(req, res) {
+  //id of product to delete
+  const productId = req.params.id;
+  if (!productId) res.status(400).json({ error: "no product id provided" });
+  try {
+    await deleteProduct(productId);
+    res
+      .status(200)
+      .json({ message: `successfully deleted product with id ${productId}` });
+  } catch (e) {
+    return res.status(500).json({ error: "failed to delete" });
+  }
+}
+
 module.exports = {
   httpGetAllProducts,
   httpGetProductsByCategory,
   httpGetProductById,
   httpAddNewProduct,
+  httpDeleteProduct,
 };

@@ -36,9 +36,19 @@ async function addNewProduct(newProduct) {
   }
 }
 
+async function deleteProduct(productId) {
+  try {
+    await products.deleteOne({ _id: productId });
+  } catch (e) {
+    throw e;
+  }
+  return;
+}
+
 module.exports = {
   getAllProducts,
   getProductById,
   getProductsByCategory,
   addNewProduct,
+  deleteProduct,
 };
