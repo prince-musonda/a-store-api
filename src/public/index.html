@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test admin</title>
+  </head>
+  <body>
+    <form action="http://localhost:5000/products" method="post">
+      <label for="productName">Product Name</label>
+      <input type="text" id="productName" name="productName" />
+      <label for="category">Categoty</label>
+      <input type="text" id="category" name="category" />
+      <label for="images">Images</label>
+      <input type="file" id="images" name="imagesUrl" />
+      <label for="quantity">quantity</label>
+      <input type="number" id="quantity" name="quantity" />
+      <label for="description">Product Description</label>
+      <textarea id="description" name="description"></textarea>
+      <input type="submit" />
+    </form>
+  </body>
+</html>
