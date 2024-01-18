@@ -5,7 +5,12 @@ async function getAllProducts() {
 }
 
 async function getProductById(id) {
-  return await products.findOne({ _id: id });
+  try {
+    const product = await products.findOne({ _id: id });
+    return product;
+  } catch (e) {
+    throw e;
+  }
 }
 
 async function getProductsByCategory(categoryName) {
@@ -14,25 +19,22 @@ async function getProductsByCategory(categoryName) {
 
 async function addNewProduct(newProduct) {
   try {
-    products;
-    await products.updateOne(
-      {
-        // filters
-        productName: newProduct.productName,
-        imagesUrl: newProduct.imagesUrl,
-      },
-      {
-        // update or create
-        ...newProduct,
-      },
-      {
-        // enable update or insert
-        upsert: true,
-      }
-    );
+    await products.createOne({
+      ...newProduct,
+    });
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+async function updateProduct(productId, newProductInfo) {
+  try {
+    await products.findOneAndUpdate({ _id: productId }, newProductInfo, {
+      upsert: true,
+    });
+  } catch (e) {
+    throw new Error("couldn't update product");
   }
 }
 
@@ -51,4 +53,5 @@ module.exports = {
   getProductsByCategory,
   addNewProduct,
   deleteProduct,
+  updateProduct,
 };

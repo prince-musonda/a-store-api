@@ -3,6 +3,7 @@ const {
   getProductById,
   getProductsByCategory,
   addNewProduct,
+  updateProduct,
   deleteProduct,
 } = require("../../models/products/products.model");
 
@@ -15,9 +16,21 @@ async function httpGetAllProducts(req, res) {
   }
 }
 
-function httpGetProductsByCategory(req, res) {}
+async function httpGetProductById(req, res) {
+  const productId = req.params.id;
+  try {
+    const product = await getProductById(productId);
+    if (!product) {
+      return res.status(400).json({ error: "product not found" });
+    } else {
+      return res.status(200).json(product);
+    }
+  } catch (e) {
+    return res.status(500).json({ error: "something went wrong" });
+  }
+}
 
-function httpGetProductById(req, res) {}
+function httpGetProductsByCategory(req, res) {}
 
 async function httpAddNewProduct(req, res) {
   const newProduct = req.body;
@@ -29,6 +42,21 @@ async function httpAddNewProduct(req, res) {
     return res.status(201).json({ message: "successful added" });
   } catch (e) {
     return res.status(500).json({ error: "something went wrong" });
+  }
+}
+
+async function httpUpdateProduct(req, res) {
+  const productId = req.params.id;
+  const updatedProductInfo = req.body;
+  try {
+    await updateProduct(productId, updatedProductInfo);
+    return res
+      .status(200)
+      .json({ message: "succesfull updated or created a new product" });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "failed to update or create a new product" });
   }
 }
 
@@ -51,5 +79,6 @@ module.exports = {
   httpGetProductsByCategory,
   httpGetProductById,
   httpAddNewProduct,
+  httpUpdateProduct,
   httpDeleteProduct,
 };
