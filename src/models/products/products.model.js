@@ -19,7 +19,7 @@ async function getProductsByCategory(categoryName) {
 
 async function addNewProduct(newProduct) {
   try {
-    await products.createOne({
+    await products.create({
       ...newProduct,
     });
   } catch (error) {
