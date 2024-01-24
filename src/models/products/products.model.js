@@ -47,6 +47,18 @@ async function deleteProduct(productId) {
   return;
 }
 
+async function isProductInStock(productId) {
+  try {
+    const availableQuantity = await products
+      .countDocuments({ _id: productId })
+      .where("quantity")
+      .gte(1);
+    return availableQuantity ? true : false;
+  } catch (e) {
+    throw e;
+  }
+}
+
 module.exports = {
   getAllProducts,
   getProductById,
@@ -54,4 +66,5 @@ module.exports = {
   addNewProduct,
   deleteProduct,
   updateProduct,
+  isProductInStock,
 };
