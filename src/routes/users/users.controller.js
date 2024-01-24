@@ -14,6 +14,14 @@ function generateToken(user) {
 
 async function httpSignUpNewUser(req, res) {
   const { firstName, lastName, phone, password } = req.body;
+  // check if user has provided all information
+  if (!firstName || !lastName || !phone || !password) {
+    console.log(req.body);
+    return res.status(400).json({
+      success: false,
+      message: "please provide your names, phone number and password",
+    });
+  }
   //check if user doesn't exist
   try {
     const userAlreadyExists = await User.findOne({ phone: phone });
@@ -69,7 +77,7 @@ async function httpSignInUser(req, res) {
       }
     }
     //ELSE
-    // when user don't exist or password is invalid
+    // when user doesn't exist or password is invalid
     return res
       .status(400)
       .json({ success: false, message: "Invalid Login credentials" });
