@@ -27,6 +27,7 @@ async function httpAddToCart(req, res) {
         productId: product._id,
         productName: product.productName,
         image: product.imagesUrl[0],
+        price: product.price,
         size,
         quantity,
       };
