@@ -23,6 +23,12 @@ const cartProductSubSchema = new mongoose.Schema({
     type: String,
   },
   size: String,
+  dateCreated: {
+    type: Date,
+    required: true,
+    default: Date.now,
+    selected: false,
+  },
 });
 
 const cartSchema = new mongoose.Schema({

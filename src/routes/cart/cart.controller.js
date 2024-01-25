@@ -1,9 +1,27 @@
 const { getProductById } = require("../../models/products/products.model.js");
 const {
   doesProductExistInCart,
+  getCart,
   addProductToCart,
   updateProductInCart,
+  removeProductInCart,
 } = require("../../models/carts/cart.model.js");
+
+async function httpGetUsersCart(req, res) {
+  const user = req.user;
+  const usersPhone = user.phone;
+  try {
+    // get users cart
+    const usersCart = await getCart(usersPhone);
+
+    res
+      .status(200)
+      .json({ success: true, data: { products: usersCart.products } });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ success: false, message: "something went wrong" });
+  }
+}
 
 async function httpAddToCart(req, res) {
   const user = req.user;
@@ -47,6 +65,22 @@ async function httpAddToCart(req, res) {
   }
 }
 
+async function httpRemoveItemFromCart(req, res) {
+  const user = req.user;
+  const usersPhone = user.phone;
+  const productToRemove = req.body;
+  const productId = productToRemove.productId;
+  try {
+    await removeProductInCart(usersPhone, productId);
+    res.status(200).json({ success: true });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ success: false, message: "something went wrong" });
+  }
+}
+
 module.exports = {
+  httpGetUsersCart,
   httpAddToCart,
+  httpRemoveItemFromCart,
 };

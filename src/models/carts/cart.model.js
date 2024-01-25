@@ -17,6 +17,20 @@ async function doesProductExistInCart(usersPhone, productId) {
   }
 }
 
+async function getCart(usersPhone) {
+  try {
+    console.log("getting cart");
+    const usersCart = await Carts.findOne(
+      { usersPhone: usersPhone },
+      { _id: 0, usersPhone: 0, __v: 0, "products._id": 0 }
+    );
+    // return usersCart or return an empty list if user has no cart
+    return usersCart || [];
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function addProductToCart(usersPhone, newProduct) {
   // add new product to users cart, or create a new cart if the user
   // doesn't have a cart and include the new product in products list
@@ -49,8 +63,23 @@ async function updateProductInCart(usersPhone, newProduct) {
   }
 }
 
+async function removeProductInCart(usersPhone, productId) {
+  try {
+    await Carts.findOneAndUpdate(
+      { usersPhone: usersPhone },
+      {
+        $pull: { products: { productId: productId } },
+      }
+    );
+  } catch (e) {
+    throw e;
+  }
+}
+
 module.exports = {
   doesProductExistInCart,
+  getCart,
   addProductToCart,
   updateProductInCart,
+  removeProductInCart,
 };

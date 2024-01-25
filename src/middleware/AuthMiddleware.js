@@ -6,7 +6,7 @@ async function protected(req, res, next) {
   // followed by the "token"
   // so we will turn the entire header into an array using(split) and
   // get the second element which will be the token
-  const usersAuthToken = req.headers.authorization.split(" ")[1];
+  const usersAuthToken = req.headers.authorization?.split(" ")[1];
   // check if user hasn't provided token
   if (!usersAuthToken) {
     return res
