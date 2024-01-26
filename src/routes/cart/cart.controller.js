@@ -70,6 +70,7 @@ async function httpRemoveItemFromCart(req, res) {
   const usersPhone = user.phone;
   const productToRemove = req.body;
   const productId = productToRemove.productId;
+
   try {
     await removeProductInCart(usersPhone, productId);
     res.status(200).json({ success: true });

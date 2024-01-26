@@ -65,12 +65,23 @@ async function updateProductInCart(usersPhone, newProduct) {
 
 async function removeProductInCart(usersPhone, productId) {
   try {
-    await Carts.findOneAndUpdate(
-      { usersPhone: usersPhone },
-      {
-        $pull: { products: { productId: productId } },
-      }
-    );
+    const usersCart = await Carts.findOne({ usersPhone: usersPhone });
+    // when users cart doesn't exist
+    if (!usersCart) {
+      return;
+    }
+    // when users cart exists, find the index(position) of the
+    // item(product) that we want to remove
+    const productIndex = usersCart.products.findIndex((product) => {
+      return product.productId == productId;
+    });
+
+    //if product was not found in cart, then exit the function
+    if (productIndex === -1) return;
+    //if product was found, then remove it from cart
+    usersCart.products.splice(productIndex, 1);
+    // save changes to database
+    await usersCart.save();
   } catch (e) {
     throw e;
   }
