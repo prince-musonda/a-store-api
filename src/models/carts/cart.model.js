@@ -19,7 +19,6 @@ async function doesProductExistInCart(usersPhone, productId) {
 
 async function getCart(usersPhone) {
   try {
-    console.log("getting cart");
     const usersCart = await Carts.findOne(
       { usersPhone: usersPhone },
       { _id: 0, usersPhone: 0, __v: 0, "products._id": 0 }
