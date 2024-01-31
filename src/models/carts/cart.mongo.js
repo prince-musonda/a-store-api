@@ -27,7 +27,6 @@ const cartProductSubSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-    selected: false,
   },
 });
 

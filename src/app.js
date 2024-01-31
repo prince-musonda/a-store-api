@@ -5,6 +5,7 @@ const productsRouter = require("./routes/products/products.routes");
 const imagesRouter = require("./routes/images/images.routes");
 const usersRouter = require("./routes/users/users.routes");
 const cartsRouter = require("./routes/cart/cart.routes");
+const ordersRouter = require("./routes/orders/orders.routes");
 
 const app = express();
 app.use(cors());
@@ -15,6 +16,7 @@ app.use("/products", productsRouter);
 app.use("/images", imagesRouter);
 app.use("/users", usersRouter);
 app.use("/carts", cartsRouter);
+app.use("/orders", ordersRouter);
 app.use("/", express.static(path.join(__dirname, "public")));
 
 module.exports = app;
