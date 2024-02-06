@@ -30,7 +30,37 @@ async function httpGetProductById(req, res) {
   }
 }
 
-function httpGetProductsByCategory(req, res) {}
+async function httpGetProductsByCategory(req, res) {
+  const { categoryName } = req.params;
+  console.log(categoryName);
+  try {
+    const products = await getProductsByCategory(categoryName);
+    res.status(200);
+    // if no products of that category were found.
+    if (!products) {
+      return res.json({
+        success: true,
+        data: {
+          number: 0,
+          products: [],
+        },
+      });
+    } else {
+      return res.json({
+        success: true,
+        data: {
+          number: products.length,
+          products: products,
+        },
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    return res
+      .status(500)
+      .json({ success: false, message: "Sorry something went wrong." });
+  }
+}
 
 async function httpAddNewProduct(req, res) {
   const newProduct = req.body;

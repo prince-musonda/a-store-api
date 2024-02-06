@@ -13,8 +13,8 @@ async function getProductById(id) {
   }
 }
 
-async function getProductsByCategory(categoryName) {
-  return await find({ category: categoryName });
+async function getProductsByCategory(categoryName, page) {
+  return await products.find({ categories: categoryName });
 }
 
 async function addNewProduct(newProduct) {
