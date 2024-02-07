@@ -67,6 +67,7 @@ async function httpAddNewProduct(req, res) {
   // type convention
   newProduct.quantity = Number(newProduct.quantity);
   newProduct.price = Number(newProduct.price);
+  newProduct.categories = newProduct.categories.map((item) => item.trim());
   try {
     await addNewProduct(newProduct);
     return res.status(201).json({ message: "successful added" });
