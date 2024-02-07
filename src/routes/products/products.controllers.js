@@ -79,6 +79,9 @@ async function httpAddNewProduct(req, res) {
 async function httpUpdateProduct(req, res) {
   const productId = req.params.id;
   const updatedProductInfo = req.body;
+  updatedProductInfo.categories = updatedProductInfo.categories.map((item) =>
+    item.trim()
+  );
   try {
     await updateProduct(productId, updatedProductInfo);
     return res
