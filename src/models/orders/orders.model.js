@@ -42,4 +42,13 @@ async function addOrder({ usersPhone, orderedProduct }) {
   }
 }
 
-module.exports = { addOrder };
+async function getAllOrders() {
+  try {
+    listOfOrders = Orders.find({}).sort("dateCreated");
+    return listOfOrders;
+  } catch (e) {
+    throw e;
+  }
+}
+
+module.exports = { addOrder, getAllOrders };

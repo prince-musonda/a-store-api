@@ -1,4 +1,4 @@
-const { addOrder } = require("../../models/orders/orders.model");
+const { addOrder, getAllOrders } = require("../../models/orders/orders.model");
 const { getProductById } = require("../../models/products/products.model");
 
 async function httpAddNewOrder(req, res) {
@@ -29,13 +29,24 @@ async function httpAddNewOrder(req, res) {
     productToBeOrdered.price =
       productInStock.price * productToBeOrdered.quantity;
     addOrder({ usersPhone: user.phone, orderedProduct: productToBeOrdered });
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: `You order for ${productInStock.productName} is successful. You will be contacted soon`,
-      });
+    return res.status(200).json({
+      success: true,
+      message: `You order for ${productInStock.productName} is successful. You will be contacted soon`,
+    });
   }
 }
 
-module.exports = { httpAddNewOrder };
+async function httpAdminGetAllOrders(req, res) {
+  try {
+    const orders = await getAllOrders();
+    res.status(200).json({ success: true, orders: orders });
+  } catch (e) {
+    throw e;
+    res.status(500).json({
+      success: false,
+      message: `sorry something went wrong. Couldn't get the list of orders`,
+    });
+  }
+}
+
+module.exports = { httpAddNewOrder, httpAdminGetAllOrders };

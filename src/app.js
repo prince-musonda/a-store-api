@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/products", productsRouter);
 app.use("/images", imagesRouter);
-app.use("/users", usersRouter);
+app.use("/users", usersRouter);``
 app.use("/carts", cartsRouter);
 app.use("/orders", ordersRouter);
 app.use("/", express.static(path.join(__dirname, "public")));

@@ -13,7 +13,7 @@ async function getProductById(id) {
   }
 }
 
-async function getProductsByCategory(categoryName, page) {
+async function getProductsByCategory(categoryName) {
   return await products.find({ categories: categoryName });
 }
 
